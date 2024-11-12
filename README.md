@@ -42,7 +42,7 @@ pip install -r requirements.txt
 ### Configuración
 Crea un archivo .env en la raíz del proyecto y define tus configuraciones (puedes omitir este paso si no usas variables de entorno específicas):
 ```bash
-SECRET_KEY=tu_llave_secreta
+OPENAI_API_KEY=<OPENAI_API_KEY>
 ```
 
 ## Uso
