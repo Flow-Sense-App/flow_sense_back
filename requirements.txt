@@ -1,0 +1,7 @@
+Flask
+numpy
+openai
+python-dotenv
+flask-cors
+joblib
+scikit-learn
