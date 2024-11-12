@@ -23,7 +23,7 @@ Este proyecto está construido en **Flask** y se complementa con una interfaz en
 
 ### Clonar el Repositorio
 ```bash
-git clone https://github.com/tu_usuario/flowsense.git
+git clone https://github.com/Flow-Sense-App/flow_sense_back
 cd flowsense
 ```
 
@@ -42,7 +42,6 @@ pip install -r requirements.txt
 ### Configuración
 Crea un archivo .env en la raíz del proyecto y define tus configuraciones (puedes omitir este paso si no usas variables de entorno específicas):
 ```bash
-FLASK_ENV=development
 SECRET_KEY=tu_llave_secreta
 ```
 
