@@ -1,6 +1,6 @@
 Flask
 numpy
-openai
+openai==0.28
 python-dotenv
 flask-cors
 joblib

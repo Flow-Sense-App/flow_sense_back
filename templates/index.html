@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlowSense</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         /* Estilos personalizados */
         body {
-            background-color: #f9f9f9;
+            background-color: #eee;
             color: #333;
         }
         h1, h2 {
@@ -51,27 +51,27 @@
                     <!-- Formulario para enviar datos al API -->
                     <form id="predict-form" class="needs-validation" novalidate>
                         <div class="mb-3">
-                            <label for="estrato_vivienda" class="form-label">Estrato Vivienda:</label>
+                            <label for="estrato_vivienda" class="form-label">Estrato de la Vivienda:</label>
                             <input type="number" class="form-control" id="estrato_vivienda" name="estrato_vivienda" value="2" required>
                         </div>
                         <div class="mb-3">
-                            <label for="hombre" class="form-label">Hombre (1 para Sí, 0 para No):</label>
+                            <label for="hombre" class="form-label">¿Es Hombre? (1 para Sí, 0 para No):</label>
                             <input type="number" class="form-control" id="hombre" name="hombre" value="1" required>
                         </div>
                         <div class="mb-3">
-                            <label for="edad_grupo_modificado" class="form-label">Edad Grupo Modificado:</label>
+                            <label for="edad_grupo_modificado" class="form-label">Edad:</label>
                             <input type="number" class="form-control" id="edad_grupo_modificado" name="edad_grupo_modificado" value="30" required>
                         </div>
                         <div class="mb-3">
-                            <label for="moto_street" class="form-label">Moto Street (1 para Sí, 0 para No):</label>
+                            <label for="moto_street" class="form-label">¿Es Moto "Street"? (1 para Sí, 0 para No):</label>
                             <input type="number" class="form-control" id="moto_street" name="moto_street" value="1" required>
                         </div>
                         <div class="mb-3">
-                            <label for="moto_scooter" class="form-label">Moto Scooter (1 para Sí, 0 para No):</label>
+                            <label for="moto_scooter" class="form-label">¿Es Moto "Scooter"? (1 para Sí, 0 para No):</label>
                             <input type="number" class="form-control" id="moto_scooter" name="moto_scooter" value="0" required>
                         </div>
                         <div class="mb-3">
-                            <label for="costo_casco" class="form-label">Costo Casco:</label>
+                            <label for="costo_casco" class="form-label">Costo del Casco:</label>
                             <input type="number" class="form-control" id="costo_casco" name="costo_casco" value="500000" required>
                         </div>
                         <div class="mb-3">
@@ -79,23 +79,23 @@
                             <input type="number" class="form-control" id="gasto_anual" name="gasto_anual" value="2000000" required>
                         </div>
                         <div class="mb-3">
-                            <label for="licencia_moto" class="form-label">Licencia Moto (1 para Sí, 0 para No):</label>
+                            <label for="licencia_moto" class="form-label">¿Tiene Licencia de Moto? (1 para Sí, 0 para No):</label>
                             <input type="number" class="form-control" id="licencia_moto" name="licencia_moto" value="1" required>
                         </div>
                         <div class="mb-3">
-                            <label for="experiencia" class="form-label">Experiencia:</label>
+                            <label for="experiencia" class="form-label">Años de Experiencia en Conducción:</label>
                             <input type="number" class="form-control" id="experiencia" name="experiencia" value="5" required>
                         </div>
                         <div class="mb-3">
-                            <label for="riesgo_velocidad" class="form-label">Riesgo Velocidad:</label>
+                            <label for="riesgo_velocidad" class="form-label">Riesgo de Velocidad:</label>
                             <input type="number" class="form-control" id="riesgo_velocidad" name="riesgo_velocidad" value="3" required>
                         </div>
                         <div class="mb-3">
-                            <label for="riesgo_sinlucesdia" class="form-label">Riesgo sin Luces de Día:</label>
+                            <label for="riesgo_sinlucesdia" class="form-label">Riesgo de Velocidad sin Luces de Día:</label>
                             <input type="number" class="form-control" id="riesgo_sinlucesdia" name="riesgo_sinlucesdia" value="2" required>
                         </div>
                         <div class="mb-3">
-                            <label for="epp_casco" class="form-label">EPP Casco (1 para Sí, 0 para No):</label>
+                            <label for="epp_casco" class="form-label">¿Usa Casco y/o Protección Personal? (1 para Sí, 0 para No):</label>
                             <input type="number" class="form-control" id="epp_casco" name="epp_casco" value="1" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Enviar</button>
@@ -103,7 +103,9 @@
                 </div>
                 <!-- Sección para mostrar los resultados de la predicción -->
                 <h2 class="mt-5">Resultado de la Predicción</h2>
-                <div id="result" class="p-3 rounded bg-light"></div>
+                <!-- Spinner de carga -->
+                <div id="loading-spinner" class="d-flex justify-content-center mt-4"></div>
+                <div id="result" class="p-3 rounded bg-light form-container"></div>
             </div>
         </div>
     </div>
@@ -112,7 +114,10 @@
         $(document).ready(function() {
             $('#predict-form').on('submit', function(event) {
                 event.preventDefault();
-
+        
+                // Mostrar el spinner de carga
+                $('#loading-spinner').show();
+        
                 const data = {
                     estrato_vivienda: parseFloat($('#estrato_vivienda').val()),
                     hombre: parseInt($('#hombre').val()),
@@ -127,13 +132,17 @@
                     riesgo_sinlucesdia: parseFloat($('#riesgo_sinlucesdia').val()),
                     epp_casco: parseInt($('#epp_casco').val())
                 };
-
+        
                 $.ajax({
-                    url: 'http://93.127.213.95:5003/predict',
+                    url: 'http://localhost:5000/predict',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: function(response) {
+                        // Ocultar el spinner de carga
+                        $('#loading-spinner').hide();
+                        
+                        // Mostrar los resultados
                         $('#result').html(`
                             <p><strong>Estado del Siniestro:</strong> ${response.prediction_result['Estado del Siniestro']}</p>
                             <p><strong>Estado del Comparendo:</strong> ${response.prediction_result['Estado del Comparendo']}</p>
@@ -146,12 +155,15 @@
                         `);
                     },
                     error: function(error) {
-                        console.error('Error:', error);
+                        // Ocultar el spinner de carga
+                        $('#loading-spinner').hide();
+                        
+                        // Mostrar mensaje de error
                         $('#result').html('<p>Hubo un error en la predicción. Por favor, intenta de nuevo.</p>');
                     }
                 });
             });
-        });
+        });        
     </script>
 </body>
 </html>
