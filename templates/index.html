@@ -9,7 +9,7 @@
     <style>
         /* Estilos personalizados */
         body {
-            background-color: #eee;
+            background-color: #f8f9fa;
             color: #333;
         }
         h1, h2 {
@@ -39,6 +39,9 @@
             margin-top: 20px;
             color: #333;
         }
+        .spinner-border {
+            display: none;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -46,57 +49,91 @@
     <div class="container mt-5">
         <h1>Formulario de Predicción</h1>
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="form-container">
                     <!-- Formulario para enviar datos al API -->
                     <form id="predict-form" class="needs-validation" novalidate>
-                        <div class="mb-3">
-                            <label for="estrato_vivienda" class="form-label">Estrato de la Vivienda:</label>
-                            <input type="number" class="form-control" id="estrato_vivienda" name="estrato_vivienda" value="2" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="estrato_vivienda" class="form-label">Estrato de la Vivienda:</label>
+                                <select class="form-control" id="estrato_vivienda" name="estrato_vivienda" required>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="hombre" class="form-label">Género:</label>
+                                <select class="form-control" id="hombre" name="hombre" required>
+                                    <option value="1">Hombre</option>
+                                    <option value="0">Mujer</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="hombre" class="form-label">¿Es Hombre? (1 para Sí, 0 para No):</label>
-                            <input type="number" class="form-control" id="hombre" name="hombre" value="1" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="edad_grupo_modificado" class="form-label">Edad:</label>
+                                <input type="number" class="form-control" id="edad_grupo_modificado" name="edad_grupo_modificado" value="30" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="moto_street" class="form-label">¿Es Moto "Street"?:</label>
+                                <select class="form-control" id="moto_street" name="moto_street" required>
+                                    <option value="1">Sí</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="edad_grupo_modificado" class="form-label">Edad:</label>
-                            <input type="number" class="form-control" id="edad_grupo_modificado" name="edad_grupo_modificado" value="30" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="moto_scooter" class="form-label">¿Es Moto "Scooter"?:</label>
+                                <select class="form-control" id="moto_scooter" name="moto_scooter" required>
+                                    <option value="1">Sí</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="costo_casco" class="form-label">Costo del Casco:</label>
+                                <input type="number" class="form-control" id="costo_casco" name="costo_casco" value="500.000" min="0" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="moto_street" class="form-label">¿Es Moto "Street"? (1 para Sí, 0 para No):</label>
-                            <input type="number" class="form-control" id="moto_street" name="moto_street" value="1" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="gasto_anual" class="form-label">Gasto Anual:</label>
+                                <input type="text" class="form-control" id="gasto_anual" name="gasto_anual" value="2.000.000" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="licencia_moto" class="form-label">¿Tiene Licencia de Moto?:</label>
+                                <select class="form-control" id="licencia_moto" name="licencia_moto" required>
+                                    <option value="1">Sí</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="moto_scooter" class="form-label">¿Es Moto "Scooter"? (1 para Sí, 0 para No):</label>
-                            <input type="number" class="form-control" id="moto_scooter" name="moto_scooter" value="0" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="experiencia" class="form-label">Años de Experiencia en Conducción:</label>
+                                <input type="number" class="form-control" id="experiencia" name="experiencia" value="5" min="0" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="riesgo_velocidad" class="form-label">Riesgo de Velocidad:</label>
+                                <input type="number" class="form-control" id="riesgo_velocidad" name="riesgo_velocidad" value="3" min="0" required>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="costo_casco" class="form-label">Costo del Casco:</label>
-                            <input type="number" class="form-control" id="costo_casco" name="costo_casco" value="500000" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="gasto_anual" class="form-label">Gasto Anual:</label>
-                            <input type="number" class="form-control" id="gasto_anual" name="gasto_anual" value="2000000" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="licencia_moto" class="form-label">¿Tiene Licencia de Moto? (1 para Sí, 0 para No):</label>
-                            <input type="number" class="form-control" id="licencia_moto" name="licencia_moto" value="1" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="experiencia" class="form-label">Años de Experiencia en Conducción:</label>
-                            <input type="number" class="form-control" id="experiencia" name="experiencia" value="5" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="riesgo_velocidad" class="form-label">Riesgo de Velocidad:</label>
-                            <input type="number" class="form-control" id="riesgo_velocidad" name="riesgo_velocidad" value="3" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="riesgo_sinlucesdia" class="form-label">Riesgo de Velocidad sin Luces de Día:</label>
-                            <input type="number" class="form-control" id="riesgo_sinlucesdia" name="riesgo_sinlucesdia" value="2" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="epp_casco" class="form-label">¿Usa Casco y/o Protección Personal? (1 para Sí, 0 para No):</label>
-                            <input type="number" class="form-control" id="epp_casco" name="epp_casco" value="1" required>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="riesgo_sinlucesdia" class="form-label">Riesgo de Velocidad sin Luces de Día:</label>
+                                <input type="number" class="form-control" id="riesgo_sinlucesdia" name="riesgo_sinlucesdia" value="2" min="0" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="epp_casco" class="form-label">¿Usa Casco y/o Protección Personal?:</label>
+                                <select class="form-control" id="epp_casco" name="epp_casco" required>
+                                    <option value="1">Sí</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Enviar</button>
                     </form>
@@ -104,7 +141,11 @@
                 <!-- Sección para mostrar los resultados de la predicción -->
                 <h2 class="mt-5">Resultado de la Predicción</h2>
                 <!-- Spinner de carga -->
-                <div id="loading-spinner" class="d-flex justify-content-center mt-4"></div>
+                <div id="loading-spinner" class="d-flex justify-content-center mt-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
                 <div id="result" class="p-3 rounded bg-light form-container"></div>
             </div>
         </div>
@@ -112,27 +153,42 @@
 
     <script>
         $(document).ready(function() {
+            // Formatear el valor del campo "Gasto Anual" al perder el foco
+            $('#gasto_anual').on('blur', function() {
+                let value = $(this).val().replace(/\./g, '');
+                if (!isNaN(value) && value !== '') {
+                    $(this).val(parseInt(value).toLocaleString('es-ES'));
+                }
+            });
+
             $('#predict-form').on('submit', function(event) {
                 event.preventDefault();
-        
+
                 // Mostrar el spinner de carga
-                $('#loading-spinner').show();
-        
+                $('#loading-spinner .spinner-border').show();
+
                 const data = {
-                    estrato_vivienda: parseFloat($('#estrato_vivienda').val()),
+                    estrato_vivienda: parseInt($('#estrato_vivienda').val()),
                     hombre: parseInt($('#hombre').val()),
                     edad_grupo_modificado: parseFloat($('#edad_grupo_modificado').val()),
                     moto_street: parseInt($('#moto_street').val()),
                     moto_scooter: parseInt($('#moto_scooter').val()),
-                    costo_casco: parseFloat($('#costo_casco').val()),
-                    gasto_anual: parseFloat($('#gasto_anual').val()),
+                    costo_casco: parseFloat($('#costo_casco').val().replace(/\./g, '')),
+                    gasto_anual: parseFloat($('#gasto_anual').val().replace(/\./g, '')),
                     licencia_moto: parseInt($('#licencia_moto').val()),
                     experiencia: parseFloat($('#experiencia').val()),
                     riesgo_velocidad: parseFloat($('#riesgo_velocidad').val()),
                     riesgo_sinlucesdia: parseFloat($('#riesgo_sinlucesdia').val()),
                     epp_casco: parseInt($('#epp_casco').val())
                 };
-        
+
+                // Validar que los valores de costos o gastos no sean menores a 0
+                if (data.costo_casco < 0 || data.gasto_anual < 0 || data.experiencia < 0 || data.riesgo_velocidad < 0 || data.riesgo_sinlucesdia < 0) {
+                    $('#loading-spinner .spinner-border').hide();
+                    $('#result').html('<p>Los valores de costos o gastos no pueden ser menores a 0.</p>');
+                    return;
+                }
+
                 $.ajax({
                     url: 'http://93.127.213.95:5003/predict',
                     type: 'POST',
@@ -140,15 +196,18 @@
                     data: JSON.stringify(data),
                     success: function(response) {
                         // Ocultar el spinner de carga
-                        $('#loading-spinner').hide();
-                        
+                        $('#loading-spinner .spinner-border').hide();
+
+                        // Formatear los números con puntos como separadores de miles
+                        const formatNumber = (num) => num.toLocaleString('es-ES');
+
                         // Mostrar los resultados
                         $('#result').html(`
                             <p><strong>Estado del Siniestro:</strong> ${response.prediction_result['Estado del Siniestro']}</p>
                             <p><strong>Estado del Comparendo:</strong> ${response.prediction_result['Estado del Comparendo']}</p>
                             <h3>Estado de Variables:</h3>
                             <ul>
-                                ${Object.entries(response.prediction_result['Estado de Variables']).map(([key, value]) => `<li>${key}: ${value}</li>`).join('')}
+                                ${Object.entries(response.prediction_result['Estado de Variables']).map(([key, value]) => `<li>${key}: ${formatNumber(value)}</li>`).join('')}
                             </ul>
                             <h3>Recomendaciones:</h3>
                             <p>${response.gpt_response}</p>
@@ -156,14 +215,14 @@
                     },
                     error: function(error) {
                         // Ocultar el spinner de carga
-                        $('#loading-spinner').hide();
-                        
+                        $('#loading-spinner .spinner-border').hide();
+
                         // Mostrar mensaje de error
                         $('#result').html('<p>Hubo un error en la predicción. Por favor, intenta de nuevo.</p>');
                     }
                 });
             });
-        });        
+        });
     </script>
 </body>
 </html>
